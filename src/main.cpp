@@ -1,18 +1,36 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+String correctPassword = "1234";  //  Change this to your password
+String inputPassword;
+int tries = 0;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
+  Serial.println("Bitte Passwort eingeben:");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  if (Serial.available() > 0) {
+    inputPassword = Serial.readStringUntil('\n');
+    inputPassword.trim(); // Entfernt Leerzeichen oder Zeilenumbrüche
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    if (inputPassword == correctPassword) {
+      Serial.println("Zugang erlaubt ");
+      while (true); // Stoppt das Programm
+    } 
+    else {
+      tries++;
+      Serial.println("Falsches Passwort ");
+
+      if (tries >= 3) {
+        Serial.println("Zugang verweigert ");
+        while (true); // Stoppt das Programm
+      } 
+      else {
+        Serial.print("Versuch ");
+        Serial.print(tries);
+        Serial.println("/3 — Bitte erneut versuchen:");
+      }
+    }
+  }
 }

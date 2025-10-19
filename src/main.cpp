@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-String correctPassword = "1234";  //  Change this to your password
+String correctPassword = "1234";  //your password
 String inputPassword;
 int tries = 0;
 
